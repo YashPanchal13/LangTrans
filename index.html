@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Multilingual Website</title>
+  <script>
+    async function translateContent() {
+      const elements = document.querySelectorAll("[data-translate]");
+      const sourceLang = "English"; // Default
+      const targetLang = document.getElementById("langSelect").value;
+
+      for (let el of elements) {
+        const original = el.innerText;
+
+        const response = await fetch("https://your-api-url/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: original,
+            source_lang: sourceLang,
+            target_lang: targetLang
+          })
+        });
+
+        const data = await response.json();
+        el.innerText = data.translated_text;
+      }
+    }
+  </script>
+</head>
+<body>
+  <select id="langSelect" onchange="translateContent()">
+    <option value="English">English</option>
+    <option value="Chinese">Chinese</option>
+    <option value="Arabic">Arabic</option>
+  </select>
+
+  <h1 data-translate>Welcome to Our Website</h1>
+  <p data-translate>This is a demo of a multilingual site using an AI translator.</p>
+  <button data-translate>Learn More</button>
+</body>
+</html>
